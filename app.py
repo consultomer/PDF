@@ -1,7 +1,5 @@
 from flask import Flask
-from app import app
 from flask import jsonify, send_file, send_from_directory, render_template
-import threading
 import os
 
 
