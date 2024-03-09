@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import jsonify, send_file, send_from_directory, render_template
+from flask import send_from_directory, render_template
 import os
 
 

@@ -1,6 +1,8 @@
-python3 -m venv myenv
-    ```
-3. Activate the virtual environment:
+1. Create virtual enviroment:
+   ```shell
+   python3 -m venv myenv
+   ```
+2. Activate the virtual environment:
     - For Windows:
       ```shell
       myenv\Scripts\activate
@@ -9,9 +11,14 @@ python3 -m venv myenv
       ```shell
       source myenv/bin/activate
       ```
-4. Install Flask using pip:
+3. Install Flask using pip:
     ```shell
     pip install flask
     ```
+4. Start flask Using:
+   ```shell
+   flask run
+   ```
 
-Once Flask is installed, you can add a link to your books in your Flask app. Here's an example of how you can do it:
+Once Flask is installed, you can add a your books in your Flask app.
+Create Books folder and add pdf file
