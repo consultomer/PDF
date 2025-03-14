@@ -38,7 +38,7 @@ jobs:
         az containerapp create \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --name flask-container-app \
-          --environment <CONTAINER_APP_ENV_NAME> \
+          --environment my-container-app-env \
           --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
           --target-port 5000 \
           --ingress external \
