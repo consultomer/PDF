@@ -35,14 +35,13 @@ jobs:
 
     - name: Deploy to Azure Container Apps
       run: |
-        az containerapp update \
-        --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-        --name flask-container-app \
-        --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
-        --min-replicas 1 \
-        --max-replicas 3 \
-        --target-port 5000 \
-        --ingress external \
-        --registry-server ${{ secrets.ACR_NAME }}.azurecr.io \
-        --registry-username ${{ secrets.ACR_NAME }} \
-        --registry-password ${{ secrets.ACR_PASSWORD }}
+        az containerapp create \
+          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+          --name flask-container-app \
+          --environment <CONTAINER_APP_ENV_NAME> \
+          --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
+          --target-port 5000 \
+          --ingress external \
+          --registry-server ${{ secrets.ACR_NAME }}.azurecr.io \
+          --registry-username ${{ secrets.ACR_NAME }} \
+          --registry-password ${{ secrets.ACR_PASSWORD }}
