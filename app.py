@@ -6,15 +6,10 @@ import os
 app = Flask(__name__)
 
 
-pdf_folder = 'books'
+pdf_folder = '/'
 @app.route("/books", methods=['GET'])
 def list_pdfs():
-    pdf_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
-    
-    # Create a list of links with href attributes
-    pdf_links = [{'filename': file, 'link': f'/books/{file}'} for file in pdf_files]
-
-    return render_template('index.html', pdf_links=pdf_links)
+    return render_template('index.html')
 
 
 @app.route("/books/<filename>", methods=['GET'])

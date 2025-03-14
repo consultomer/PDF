@@ -1,4 +1,4 @@
-name: Flask Docker CI/CD Pipeline to ACI
+name: Flask Docker CI/CD Pipeline to Azure Container Apps
 
 on:
   push:
@@ -33,16 +33,16 @@ jobs:
       run: |
         docker push ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest
 
-    - name: Deploy to Azure Container Instances (ACI)
+    - name: Deploy to Azure Container Apps
       run: |
-          az container create \
-          --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
-          --name flask-container-instance \
-          --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
-          --cpu 1 --memory 1.5 \
-          --registry-login-server ${{ secrets.ACR_NAME }}.azurecr.io \
-          --registry-username ${{ secrets.ACR_NAME }} \
-          --registry-password ${{ secrets.ACR_PASSWORD }} \
-          --port 5000 \
-          --dns-name-label flask-container-instance \
-          --os-type Linux
+        az containerapp update \
+        --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+        --name flask-container-app \
+        --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
+        --min-replicas 1 \
+        --max-replicas 3 \
+        --target-port 5000 \
+        --ingress external \
+        --registry-server ${{ secrets.ACR_NAME }}.azurecr.io \
+        --registry-username ${{ secrets.ACR_NAME }} \
+        --registry-password ${{ secrets.ACR_PASSWORD }}
