@@ -41,7 +41,7 @@ jobs:
           --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
           --cpu 1 --memory 1.5 \
           --registry-login-server ${{ secrets.ACR_NAME }}.azurecr.io \
-          --registry-username ${{ secrets.ACR_USERNAME }} \
+          --registry-username ${{ secrets.ACR_NAME }} \
           --registry-password ${{ secrets.ACR_PASSWORD }} \
           --port 5000 \
           --dns-name-label flask-container-instance \
