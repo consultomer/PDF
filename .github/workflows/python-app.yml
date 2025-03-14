@@ -35,13 +35,14 @@ jobs:
 
     - name: Deploy to Azure Container Instances (ACI)
       run: |
-        az container create \
+          az container create \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --name flask-container-instance \
           --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest \
           --cpu 1 --memory 1.5 \
           --registry-login-server ${{ secrets.ACR_NAME }}.azurecr.io \
-          --registry-username ${{ secrets.ACR_NAME }} \
+          --registry-username ${{ secrets.ACR_USERNAME }} \
           --registry-password ${{ secrets.ACR_PASSWORD }} \
           --port 5000 \
-          --dns-name-label flask-container-instance
+          --dns-name-label flask-container-instance \
+          --os-type Linux
