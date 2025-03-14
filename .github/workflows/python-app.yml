@@ -32,9 +32,10 @@ jobs:
     - name: Push Docker Image to ACR
       run: |
         docker push ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest
-
-    - name: Deploy to Azure Container Apps
+    - name: Check if Azure Container Apps already exists
       run: |
+        output=az containerapp show --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name flask-container-app
+        if [ -z "$output" ]; then
         az containerapp create \
           --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
           --name flask-container-app \
@@ -45,3 +46,8 @@ jobs:
           --registry-server ${{ secrets.ACR_NAME }}.azurecr.io \
           --registry-username ${{ secrets.ACR_NAME }} \
           --registry-password ${{ secrets.ACR_PASSWORD }}
+          echo "Azure Container Apps does not exist"
+        else
+          echo "Azure Container Apps already exists"
+          az contianerapp update --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --name flask-container-app --image ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest
+        fi
