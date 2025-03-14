@@ -1,13 +1,12 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+name: Flask Docker CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build-and-push:
@@ -27,13 +26,15 @@ jobs:
         az acr login --name ${{ secrets.ACR_NAME }}
 
     - name: Build Docker Image
-      run: docker build -t ${{ secrets.ACR }}/flask-app:latest .
+      run: |
+        docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest .
 
-    - name: Push to ACR
-      run: docker push ${{ secrets.ACR }}/flask-app:latest
+    - name: Push Docker Image to ACR
+      run: |
+        docker push ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'my-flask-app'
-        images: ${{ secrets.ACR }}/flask-app:latest
+        images: ${{ secrets.ACR_NAME }}.azurecr.io/flask-app:latest
