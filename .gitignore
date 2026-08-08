@@ -3,6 +3,7 @@ __pycache__/
 env/
 myenv/
 .venv/
+venv/
 .flaskenv
 .env
 books/
