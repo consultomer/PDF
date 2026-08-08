@@ -1,6 +1,18 @@
-FROM python:latest
+FROM python:3.12-slim
+
 WORKDIR /app
-COPY . /app
+
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app.py .
+COPY templates/ templates/
+
+RUN useradd --create-home appuser \
+    && mkdir -p /app/books \
+    && chown -R appuser:appuser /app
+USER appuser
+
 EXPOSE 5000
-CMD ["flask", "run"]
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
